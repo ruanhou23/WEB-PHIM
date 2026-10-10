@@ -7,19 +7,30 @@ import { getDatabase } from "firebase-admin/database";
  * Dùng để verify ID token, tạo session cookie, quản lý user, lưu settings.
  */
 
-const serviceAccount: ServiceAccount = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-};
-
 let app: App;
 
 if (getApps().length === 0) {
-  app = initializeApp({
-    credential: cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL || undefined,
-  });
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const rawKey = process.env.FIREBASE_PRIVATE_KEY;
+  const privateKey = rawKey ? rawKey.replace(/\\n/g, "\n") : undefined;
+
+  if (projectId && clientEmail && privateKey) {
+    const serviceAccount: ServiceAccount = {
+      projectId,
+      clientEmail,
+      privateKey,
+    };
+    app = initializeApp({
+      credential: cert(serviceAccount),
+      databaseURL: process.env.FIREBASE_DATABASE_URL || undefined,
+    });
+  } else {
+    // Dành cho quá trình build Next.js (collecting page data) khi chưa inject env
+    app = initializeApp({
+      projectId: projectId || "build-dummy-project",
+    });
+  }
 } else {
   app = getApps()[0];
 }
@@ -31,4 +42,3 @@ const databaseUrl = process.env.FIREBASE_DATABASE_URL;
 const adminDb = databaseUrl ? getDatabase(app) : null;
 
 export { adminAuth, adminDb };
-

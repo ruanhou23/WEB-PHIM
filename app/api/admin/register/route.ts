@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME, verifySessionCookie, createAdminUser, listAdminUsers, deleteAdminUser } from "@/lib/admin/auth";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Kiểm tra quyền admin từ session cookie.
  */

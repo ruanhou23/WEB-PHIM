@@ -11,6 +11,8 @@ import {
   deleteViewerUser,
 } from "@/lib/utils/site-protection";
 
+export const dynamic = "force-dynamic";
+
 async function requireAdmin(req: NextRequest) {
   const sessionCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
   if (!sessionCookie) return null;

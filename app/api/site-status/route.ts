@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { isSiteProtected, isUserLoginEnabled } from "@/lib/utils/site-protection";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/site-status
  * Trả về trạng thái bảo vệ site & trạng thái tính năng đăng nhập người dùng.

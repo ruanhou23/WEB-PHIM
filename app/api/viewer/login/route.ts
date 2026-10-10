@@ -3,6 +3,8 @@ import { VIEWER_SESSION_COOKIE_NAME, VIEWER_SESSION_MAX_AGE } from "@/lib/admin/
 import { createViewerSession, verifyViewerSession, isUserLoginEnabled } from "@/lib/utils/site-protection";
 import { adminAuth } from "@/lib/firebase/admin";
 
+export const dynamic = "force-dynamic";
+
 /**
  * POST /api/viewer/login
  * Đăng nhập tài khoản viewer/user. Body: { idToken }

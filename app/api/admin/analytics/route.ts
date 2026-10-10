@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME, verifySessionCookie } from "@/lib/admin/auth";
 import { getAnalytics, blockIP, unblockIP } from "@/lib/utils/access-log";
 
+export const dynamic = "force-dynamic";
+
 async function requireAdmin(req: NextRequest) {
   const sessionCookie = req.cookies.get(SESSION_COOKIE_NAME)?.value;
   if (!sessionCookie) return null;
